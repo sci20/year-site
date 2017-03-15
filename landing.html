@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!-- 2016-10-13 -->
+<html>
+	<head>
+		<title>Sci20.ca is coming soon...</title>
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+		<style>
+			html, body {
+				overflow-x: hidden;
+				overflow-y: hidden;
+				height: 100%;
+				background-color:#000;
+			}
+			.shell {
+				height: 100%;
+				margin: 0;
+				text-align: center;
+				width: 100%;
+			}
+			.shell:before {
+				content: ' ';
+				display: inline-block;
+				height: 100%;
+				vertical-align: middle;
+				margin-right: -0.25em;
+			}
+			.container {
+				color: #fff;
+				display: inline-block;
+				margin: auto;
+				padding:10pt;
+				vertical-align: middle;
+				border-style:solid;
+				border-color:#0f0;
+				width:440pt;
+			}
+			h1,p {
+				color:#0f0;
+				font-family: 'Share Tech Mono', monospace;
+				font-size:24pt;
+			}
+			p{
+				font-size:18pt;
+			}
+		</style>
+		<script>
+			window.onload=function(){
+				var dateToStr=function(date){
+					if(date<0) return "99:99:99:99";
+					var f=function(n){
+						var tmp=""+n;
+						return '00'.substring(tmp.length)+tmp;
+					};
+					var se=parseInt(date/1000);
+					var mn=parseInt(se/60);
+					var hr=parseInt(mn/60);
+					var da=parseInt(hr/24);
+					//if(da>99)
+					//	da=99;
+					return f(da)+':'+f(hr%24)+':'+f(mn%60)+':'+f(se%60);
+				};
+				
+				var div=document.getElementById("cont");
+				var h1=document.getElementById("title");
+				var p=document.getElementById("counter");
+				var h1text="Sci20.ca will be ready in:";
+				h1.innerHTML="&nbsp;".repeat(26);
+				
+				p.style.color='#000';
+				
+				var lastTime=performance.now();
+				var i=-2;
+				
+				var aniFrame=function(t){
+					if(t-lastTime>90){
+						     if(i<=1){}
+						else if(i<=h1text.length){
+							h1.innerHTML=h1text.substring(0,i)+"&nbsp;".repeat(h1text.length-i);
+						}
+						else if(i<(h1text.length+16)){
+							var j=i-h1text.length;
+							p.style.color='rgb(0,'+j*16+',0)';
+						}
+						else {
+							p.style.color='#0f0';
+						}
+						i++;
+						lastTime=t;
+					}
+					var time=new Date(2012,12-1,21,0,0)-new Date();
+					if(time<0)
+						time=0;
+					time=-1;
+					p.innerHTML=dateToStr(time);
+					window.requestAnimationFrame(aniFrame);
+				};
+				window.requestAnimationFrame(aniFrame);
+			};
+		</script>
+	</head>
+	<body>
+		<div class="shell">
+			<div class="container" id="cont">
+				<h1 id="title">Sci20.ca will be ready in:</h1>
+				<p id="counter">99:99:99:99</p>
+			</div>
+		</div>
+	</body>
+</html>
